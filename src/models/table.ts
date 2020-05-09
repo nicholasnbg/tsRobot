@@ -30,7 +30,7 @@ const robotPosition = (options: Position) => {
 
 const table = tableParameter({ width: 5, height: 5 });
 
-export { Table, Position, Robot };
+export { Table, Position, Robot, robotPosition, tableParameter };
 
 // position({ y, x, facing });
 
