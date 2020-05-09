@@ -2,32 +2,23 @@ import { Table } from "../models/table";
 import { Position } from "../models/position";
 import {
   CompassBearing,
-  Direction,
-  compassArray,
+  validBearings,
 } from "../models/compassBearing";
 
 const moveForward = (table: Table, position: Position): Position => {
-  //needs to test if the result of adding the x or y will bump into the table or not
-  //before then checking facing direction and moving that way
-
-  const bearingIndex = compassArray.findIndex(
-    (bearing: CompassBearing) =>
-      bearing.direction === position.bearing.direction
-  );
-  const correctBearing = compassArray[bearingIndex];
+  const correctBearing: CompassBearing = validBearings[position.bearing.direction]
   const { x: xMovement, y: yMovement } = correctBearing;
   const newX = position.x + xMovement;
   const newY = position.y + yMovement;
-  if (newX <= table.width && newY <= table.height && newX > 0 && newY > 0) {
-    const newPosition = {
-      x: newX,
-      y: newY,
-      bearing: position.bearing,
-    };
-    return newPosition;
-  } else {
-    return position;
-  }
+
+  const newPosition = {
+        x: newX,
+        y: newY,
+        bearing: position.bearing,
+      }
+
+  return isValidPosition(table, newPosition) ? newPosition : position
+
 };
 
 const isValidPosition = (table: Table, position: Position): boolean => {
